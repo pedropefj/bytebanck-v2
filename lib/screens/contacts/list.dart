@@ -6,8 +6,12 @@ import 'package:flutter/material.dart';
 
 final _titleApp = 'Contacts';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends StatefulWidget {
+  @override
+  _ContactsListState createState() => _ContactsListState();
+}
 
+class _ContactsListState extends State<ContactsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,11 +24,9 @@ class ContactsList extends StatelessWidget {
         initialData: [],
         future: findAll(),
         builder: (context, snapshot) {
-          switch(snapshot.connectionState){
+          switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Center(
-                child: Loading()
-              );
+              return Center(child: Loading());
               break;
             case ConnectionState.done:
               final List<Contact> contacts = snapshot.data;
@@ -38,21 +40,18 @@ class ContactsList extends StatelessWidget {
               break;
           }
           return Text('Unknwn error');
-
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(
-                builder: (context) => ContactsForm(),
-              ))
-              .then(
-                (newContact) => debugPrint(
-                  newContact.toString(),
-                ),
-              );
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ContactsForm(),
+          )).then((value) {
+            setState(() {
+              widget.createState();
+            });
+          });
         },
       ),
     );
