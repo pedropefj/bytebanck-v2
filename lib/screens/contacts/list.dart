@@ -1,3 +1,4 @@
+import 'package:bytebank_v2/components/loading.dart';
 import 'package:bytebank_v2/database/app_database.dart';
 import 'package:bytebank_v2/models/contact.dart';
 import 'package:bytebank_v2/screens/contacts/form.dart';
@@ -15,17 +16,29 @@ class ContactsList extends StatelessWidget {
           _titleApp,
         ),
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<List<Contact>>(
+        initialData: [],
         future: findAll(),
         builder: (context, snapshot) {
-          final List<Contact> contacts = snapshot.data;
-          return ListView.builder(
-            itemBuilder: (context, index) {
-              final Contact contact = contacts[index];
-              return _ContactItem(contact);
-            },
-            itemCount: contacts.length,
-          );
+          switch(snapshot.connectionState){
+            case ConnectionState.waiting:
+              return Center(
+                child: Loading()
+              );
+              break;
+            case ConnectionState.done:
+              final List<Contact> contacts = snapshot.data;
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  final Contact contact = contacts[index];
+                  return _ContactItem(contact);
+                },
+                itemCount: contacts.length,
+              );
+              break;
+          }
+          return Text('Unknwn error');
+
         },
       ),
       floatingActionButton: FloatingActionButton(

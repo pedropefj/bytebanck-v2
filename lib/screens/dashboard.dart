@@ -1,4 +1,4 @@
-import 'file:///C:/Alura/flutter/bytebank_v2/lib/screens/contacts/list.dart';
+import 'package:bytebank_v2/screens/contacts/list.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
