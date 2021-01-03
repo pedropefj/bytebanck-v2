@@ -1,4 +1,4 @@
-import 'package:bytebank_v2/database/app_database.dart';
+import 'package:bytebank_v2/database/dao/contact_dao.dart';
 import 'package:bytebank_v2/models/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +16,7 @@ class ContactsForm extends StatefulWidget {
 class _ContactsFormState extends State<ContactsForm> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _accountNumberController = TextEditingController();
+  final ContactDao _contactDao = ContactDao();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class _ContactsFormState extends State<ContactsForm> {
 
                       if(_validContact(name, accountNumber)){
                         final Contact newContact = Contact(name: name, accountNumber: accountNumber);
-                        save(newContact).then((id) => {
+                        _contactDao.save(newContact).then((id) => {
                           Navigator.pop(context),
                         });
                       }
