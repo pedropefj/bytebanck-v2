@@ -4,7 +4,7 @@ import 'package:bytebank_v2/models/contact.dart';
 import 'package:bytebank_v2/screens/contacts/form.dart';
 import 'package:flutter/material.dart';
 
-final _titleApp = 'Contacts';
+final _titleApp = 'Transfer';
 
 class ContactsList extends StatefulWidget {
   @override
