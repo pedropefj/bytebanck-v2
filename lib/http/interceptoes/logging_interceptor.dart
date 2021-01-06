@@ -6,7 +6,8 @@ class LoggingInterceptor implements InterceptorContract {
     print('Request');
     print('url: ${data.url}');
     print('headers: ${data.headers}');
-    print('body: ${data.body}');    return data;
+    print('body: ${data.body}');    
+    return data;
   }
 
   @override
