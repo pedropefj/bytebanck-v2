@@ -6,6 +6,7 @@ import 'file:///C:/Alura/flutter/bytebank_v2/lib/http/interceptoes/logging_inter
 
 Client client = HttpClientWithInterceptor.build(
   interceptors: [LoggingInterceptor()],
+  requestTimeout: Duration(seconds: 10)
 );
 
 
