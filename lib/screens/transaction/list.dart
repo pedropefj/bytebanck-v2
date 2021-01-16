@@ -58,6 +58,12 @@ class TransactionsList extends StatelessWidget {
                   icon: Icons.warning,
                 );
               break;
+            case ConnectionState.none:
+              // TODO: Handle this case.
+              break;
+            case ConnectionState.active:
+              // TODO: Handle this case.
+              break;
           }
           return Text('Unkown error');
         },

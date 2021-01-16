@@ -50,6 +50,12 @@ class _ContactsListState extends State<ContactsList> {
                 itemCount: contacts.length,
               );
               break;
+            case ConnectionState.none:
+              // TODO: Handle this case.
+              break;
+            case ConnectionState.active:
+              // TODO: Handle this case.
+              break;
           }
           return Text('Unknwn error');
         },
