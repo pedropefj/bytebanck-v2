@@ -1,4 +1,5 @@
 import 'package:bytebank_v2/components/container.dart';
+import 'package:bytebank_v2/components/localization.dart';
 import 'package:bytebank_v2/models/name.dart';
 import 'package:bytebank_v2/screens/contacts/list.dart';
 import 'package:bytebank_v2/screens/name.dart';
@@ -19,6 +20,8 @@ class DashboardContainer extends BlocContainer {
 class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final i18n = DashboardViewI18n(context);
+
     return Scaffold(
       appBar: AppBar(
         //Misturando um blocbuilder (que é observer de eventos) com UI
@@ -44,19 +47,19 @@ class DashboardView extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: [
                     _FeatureItem(
-                      'Transfer',
+                      i18n.transfer,
                       Icons.monetization_on,
                       onClick: () {
                         _showContactsList(context);
                       },
                     ),
                     _FeatureItem(
-                      'Transaction Feed',
+                      i18n.transaction_feed,
                       Icons.description,
                       onClick: () => _showTransactionList(context),
                     ),
                     _FeatureItem(
-                      'Change Name',
+                      i18n.change_name,
                       Icons.person_outline,
                       onClick: () => _showChangeName(context),
                     ),
@@ -76,7 +79,6 @@ class DashboardView extends StatelessWidget {
 
   void _showTransactionList(BuildContext blocContext) {
     push(blocContext, TransactionListContainer());
-
   }
 
   void _showChangeName(BuildContext blocContext) {
@@ -89,6 +91,19 @@ class DashboardView extends StatelessWidget {
       ),
     );
   }
+}
+
+class DashboardViewI18n extends ViewI18n {
+  DashboardViewI18n(BuildContext context) : super(context);
+
+  String get transfer =>
+      localize({"pt-br": "Transferir", "en": "Transfer"});
+
+  String get transaction_feed =>
+      localize({"pt-br": "Transações", "en": "Transaction feed"});
+
+  String get change_name =>
+      localize({"pt-br": "Mudar nome", "en": "Change name"});
 }
 
 class _FeatureItem extends StatelessWidget {

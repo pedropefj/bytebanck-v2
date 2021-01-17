@@ -1,3 +1,4 @@
+import 'package:bytebank_v2/components/localization.dart';
 import 'package:bytebank_v2/components/theme.dart';
 import 'package:bytebank_v2/screens/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,11 @@ class BytebankApp extends StatelessWidget {
     Bloc.observer = LogObserver();
 
     return MaterialApp(
-      home: DashboardContainer(),
+      home: LocalizationContainer(
+        child: DashboardContainer(),
+      ),
       theme: byteBankTheme,
     );
   }
 }
+
