@@ -74,12 +74,9 @@ class DashboardView extends StatelessWidget {
     push(blocContext, ContactsListContainer());
   }
 
-  void _showTransactionList(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => TransactionsList(),
-      ),
-    );
+  void _showTransactionList(BuildContext blocContext) {
+    push(blocContext, TransactionListContainer());
+
   }
 
   void _showChangeName(BuildContext blocContext) {
