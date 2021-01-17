@@ -3,7 +3,7 @@ import 'package:bytebank_v2/http/webclient.dart';
 import 'package:bytebank_v2/models/transaction.dart';
 import 'package:http/http.dart';
 
-final String _baseUrl = 'http://192.168.2.12:8080/transactions';
+final String _baseUrl = 'http://192.168.2.10:8080/transactions';
 
 class TransactionWebClient {
   Future<List<Transaction>> findAll() async {
