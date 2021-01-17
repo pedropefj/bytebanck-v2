@@ -109,7 +109,7 @@ class ContactsList extends StatelessWidget {
       onPressed: () async {
         await Navigator.of(context)
             .push(MaterialPageRoute(
-          builder: (context) => ContactsForm(),
+          builder: (context) => ContactFormContainer(),
         ));
         _update(context);
       },
