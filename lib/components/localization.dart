@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bytebank_v2/components/container.dart';
 import 'package:bytebank_v2/components/error.dart';
 import 'package:bytebank_v2/components/progress.dart';
@@ -5,6 +7,7 @@ import 'package:bytebank_v2/http/webclients/i18n_webclient.dart';
 import 'package:bytebank_v2/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localstorage/localstorage.dart';
 
 class LocalizationContainer extends BlocContainer {
   final Widget child;
@@ -96,15 +99,33 @@ class I18NLoadingView extends StatelessWidget {
 }
 
 class I18NMessagesCubit extends Cubit<I18NMessagesState> {
-  I18NMessagesCubit() : super(InitI18NMessageState());
+  final String viewkey;
+  final String language;
+
+  final LocalStorage storage = new LocalStorage('location_storage.json');
+
+  I18NMessagesCubit(this.viewkey, this.language) : super(InitI18NMessageState());
 
   Future<void> reload(I18nWebClient client) async {
+
+    String keyStorage = '${viewkey}_$language';
     emit(LoadingI18NMessageState());
+    var ready = await storage.ready;
+    print('searching ${keyStorage} is $ready');
+    final items = storage.getItem(keyStorage);
+    print('LocalStorage items ${items}');
+    if(items!= null){
+      emit(LoadedI18NMessageState(I18NMessages(items)));
+      return;
+    }
+    client.findAll().then((messages){refreshAndSave(messages, keyStorage);});
+  }
 
-    await Future.delayed(Duration(seconds: 3));
-    var response = await client.findAll();
-
-    emit(LoadedI18NMessageState(I18NMessages(response)));
+  refreshAndSave(Map<String, dynamic> messages, String keyStorage) {
+    storage.setItem(keyStorage, messages);
+    print('saving $keyStorage');
+    final state = LoadedI18NMessageState(I18NMessages(messages));
+    emit(state);
   }
 }
 
@@ -129,7 +150,7 @@ class I18NLoadingContainer extends BlocContainer {
   Widget build(BuildContext context) {
     return BlocProvider<I18NMessagesCubit>(
       create: (BuildContext context) {
-        final cubit = I18NMessagesCubit();
+        final cubit = I18NMessagesCubit(this.viewKey, this.language);
         cubit.reload(I18nWebClient(this.viewKey, this.language));
         return cubit;
       },
