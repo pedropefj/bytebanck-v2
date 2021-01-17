@@ -111,19 +111,29 @@ class I18NMessagesCubit extends Cubit<I18NMessagesState> {
 typedef Widget I18NWidgetCreator(I18NMessages messages);
 
 class I18NLoadingContainer extends BlocContainer {
-  final I18NWidgetCreator _creator;
+  I18NWidgetCreator creator;
+  String viewKey;
+  String language;
 
-  I18NLoadingContainer(this._creator);
+  I18NLoadingContainer({
+    @required String viewKey,
+    @required String language,
+    @required I18NWidgetCreator creator,
+  }) {
+    this.creator = creator;
+    this.viewKey = viewKey;
+    this.language = language;
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<I18NMessagesCubit>(
       create: (BuildContext context) {
         final cubit = I18NMessagesCubit();
-        cubit.reload(I18nWebClient());
+        cubit.reload(I18nWebClient(this.viewKey, this.language));
         return cubit;
       },
-      child: I18NLoadingView(this._creator),
+      child: I18NLoadingView(this.creator),
     );
   }
 }

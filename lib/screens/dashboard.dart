@@ -11,10 +11,13 @@ class DashboardContainer extends BlocContainer {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NameCubit("Guilherme"),
+      create: (_) => NameCubit("Pedro"),
       child: I18NLoadingContainer(
-        (messages) => DashboardView(DashboardViewLazyI18n(messages))
-      ),
+          viewKey: "dashboard",
+          language: BlocProvider.of<CurrentLocaleCubit>(context).state,
+          creator: (messages) => DashboardView(
+                DashboardViewLazyI18n(messages),
+              )),
     );
   }
 }
@@ -28,10 +31,9 @@ class DashboardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //Misturando um blocbuilder (que é observer de eventos) com UI
-        title: BlocBuilder<NameCubit, String>(
-            builder: (context, state) => Text('Welcome $state')),
-      ),
+          //Misturando um blocbuilder (que é observer de eventos) com UI
+          title: BlocBuilder<NameCubit, String>(
+              builder: (context, state) => Text('Welcome $state')),),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height - 80,
